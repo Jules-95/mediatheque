@@ -2,6 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Abonne;
+use App\Entity\Emprunt;
+use App\Entity\Livre;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -9,8 +12,68 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        // 10 livres (Générés par ia)
+        $livresData = [
+            ['titre' => 'Harry Potter', 'auteur' => 'J.K. Rowling', 'isbn' => '9782070584628'],
+            ['titre' => 'Le Seigneur des Anneaux', 'auteur' => 'Tolkien', 'isbn' => '9782267011258'],
+            ['titre' => 'Les Misérables', 'auteur' => 'Victor Hugo', 'isbn' => '9782253096344'],
+            ['titre' => 'Le Petit Prince', 'auteur' => 'Saint-Exupéry', 'isbn' => '9782070408504'],
+            ['titre' => 'Dune', 'auteur' => 'Frank Herbert', 'isbn' => '9782266320643'],
+            ['titre' => '1984', 'auteur' => 'George Orwell', 'isbn' => '9782072763786'],
+            ['titre' => 'Le Rouge et le Noir', 'auteur' => 'Stendhal', 'isbn' => '9782253004226'],
+            ['titre' => 'Germinal', 'auteur' => 'Émile Zola', 'isbn' => '9782253004226'],
+            ['titre' => 'L\'Étranger', 'auteur' => 'Albert Camus', 'isbn' => '9782070360024'],
+            ['titre' => 'Madame Bovary', 'auteur' => 'Gustave Flaubert', 'isbn' => '9782253004392'],
+        ];
+
+        $livres = [];
+        foreach ($livresData as $data) {
+            $livre = new Livre();
+            $livre->setTitre($data['titre']);
+            $livre->setAuteur($data['auteur']);
+            $livre->setIsbn($data['isbn']);
+            $livre->setDatePublication(new \DateTimeImmutable('2000-01-01'));
+            $livre->setDisponible(true);
+            $manager->persist($livre);
+            $livres[] = $livre;
+        }
+
+        // 5 abonnés (Générés par ia)
+        $abonnesData = [
+            ['nom' => 'Dupont', 'prenom' => 'Jean', 'email' => 'jean.dupont@mail.com'],
+            ['nom' => 'Martin', 'prenom' => 'Marie', 'email' => 'marie.martin@mail.com'],
+            ['nom' => 'Bernard', 'prenom' => 'Paul', 'email' => 'paul.bernard@mail.com'],
+            ['nom' => 'Durand', 'prenom' => 'Sophie', 'email' => 'sophie.durand@mail.com'],
+            ['nom' => 'Leroy', 'prenom' => 'Lucas', 'email' => 'lucas.leroy@mail.com'],
+        ];
+
+        $abonnes = [];
+        foreach ($abonnesData as $data) {
+            $abonne = new Abonne();
+            $abonne->setNom($data['nom']);
+            $abonne->setPrenom($data['prenom']);
+            $abonne->setEmail($data['email']);
+            $abonne->setDateInscription(new \DateTimeImmutable());
+            $manager->persist($abonne);
+            $abonnes[] = $abonne;
+        }
+
+        // 3 emprunts en cours
+        $empruntsData = [
+            ['livre' => 0, 'abonne' => 0],
+            ['livre' => 1, 'abonne' => 1],
+            ['livre' => 2, 'abonne' => 2],
+        ];
+
+        foreach ($empruntsData as $data) {
+            $emprunt = new Emprunt();
+            $emprunt->setLivre($livres[$data['livre']]);
+            $emprunt->setAbonne($abonnes[$data['abonne']]);
+            $emprunt->setDateEmprunt(new \DateTimeImmutable());
+            $emprunt->setDateRetourPrevue(new \DateTimeImmutable('+1 month'));
+            $livres[$data['livre']]->setDisponible(false);
+            $manager->persist($emprunt);
+        }
 
         $manager->flush();
     }
