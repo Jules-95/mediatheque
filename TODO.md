@@ -1,8 +1,5 @@
 # TODO 
 
-## Bugs non résolus en attente de fix 
-- Affichage du message d'erreur 'Livre déja emprunté' sur le formulaire d'ajout d'emprunt n'apparrait pas. 
-
 ## Interface web - Reste à faire
 
 - **Ajout de style + Tailwind**
@@ -16,9 +13,14 @@ Le message d'erreur "livre déjà emprunté" ne s'affiche pas correctement sur l
 Fonctionne correctement via l'API REST.
 
 ## Sécurité 
+- Manque une page de login et systeme de logout 
+- Manque une vraie sécurisation des routes selon les rôles
 - L'entité User est créée avec deux utilisateurs en base  :
   - admin@mediatheque.fr / admin123 → ROLE_ADMIN
   - biblio@mediatheque.fr / biblio123 → ROLE_BIBLIOTHECAIRE
 - Pour activer la sécurisation (partielle) il faut décommenter dans security.yaml :
   `- { path: ^/api, roles: ROLE_BIBLIOTHECAIRE }`
 
+## Autre
+- J'aurais aimé utilisé Foundry mais manque de temps 
+- Règle d'unicité du isbn non respecté. Même si hors consigne on aurait pu faire attention à la validation des données. (isbn standardisé, toujours un meme nombre de chiffres, identifiant du livre,...)
