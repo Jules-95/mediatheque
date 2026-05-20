@@ -12,6 +12,14 @@
                 <td>{{ emprunt.id }}</td>
             </tr>
             <tr>
+                <th>Livre</th>
+                <td>{{ emprunt.livre.titre }}</td>
+            </tr>
+            <tr>
+                <th>Abonné</th>
+                <td>{{ emprunt.abonne.nom }} {{ emprunt.abonne.prenom }}</td>
+            </tr>
+            <tr>
                 <th>DateEmprunt</th>
                 <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('Y-m-d') : '' }}</td>
             </tr>

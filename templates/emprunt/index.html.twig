@@ -9,6 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Livre</th>
+                <th>Abonné</th>
                 <th>DateEmprunt</th>
                 <th>DateRetourPrevue</th>
                 <th>DateRetourEffective</th>
@@ -19,6 +21,8 @@
         {% for emprunt in emprunts %}
             <tr>
                 <td>{{ emprunt.id }}</td>
+                <td>{{ emprunt.livre.titre }}</td>
+                <td>{{ emprunt.abonne.nom }} {{ emprunt.abonne.prenom }}</td>
                 <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('Y-m-d') : '' }}</td>
                 <td>{{ emprunt.dateRetourPrevue ? emprunt.dateRetourPrevue|date('Y-m-d') : '' }}</td>
                 <td>{{ emprunt.dateRetourEffective ? emprunt.dateRetourEffective|date('Y-m-d') : '' }}</td>
