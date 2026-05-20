@@ -75,3 +75,14 @@ Content-Type: application/json
     "titre": "Nouveau titre"
 }
 - DELETE http://127.0.0.1:8000/api/livres/{id} -> Supprimer un livre
+
+## Accès à l'interface web
+
+| Page | URL |
+|------|-----|
+| Accueil | http://127.0.0.1:8000 |
+| Livres | http://127.0.0.1:8000/livre |
+| Abonnés | http://127.0.0.1:8000/abonne |
+| Emprunts | http://127.0.0.1:8000/emprunt |
+
+Interface minimaliste de base de symfony.

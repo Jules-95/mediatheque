@@ -4,6 +4,9 @@
 
 - **Ajout de style + Tailwind**
 
+- **Ajout de liens entre les pages**
+Actuellement on navigue entre les crud via l'url mais il faudrait lier les pages et faire une vraie homepage et une page de login
+
 - **Suppression d'un livre** : 
 La suppression via l'interface web ne vérifie pas si le livre a des emprunts liés contrairement à l'API qui gère ce cas correctement. 
 Il faudrait ajouter la même logique dans LivreController -> vérifier la disponibilité et supprimer les emprunts historiques avant de supprimer le livre.
