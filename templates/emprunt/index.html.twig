@@ -29,6 +29,10 @@
                 <td>
                     <a href="{{ path('app_emprunt_show', {'id': emprunt.id}) }}">show</a>
                     <a href="{{ path('app_emprunt_edit', {'id': emprunt.id}) }}">edit</a>
+                    {# Ajout d'un btn retourner que si le livre est emprunté #}
+                    {% if emprunt.dateRetourEffective is null %}
+                    <a href="{{ path('app_emprunt_retour', {'id': emprunt.id}) }}">Retourner</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
