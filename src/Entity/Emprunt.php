@@ -23,6 +23,14 @@ class Emprunt
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateRetourEffective = null;
 
+    #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Livre $livre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Abonne $abonne = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +68,30 @@ class Emprunt
     public function setDateRetourEffective(\DateTimeImmutable $dateRetourEffective): static
     {
         $this->dateRetourEffective = $dateRetourEffective;
+
+        return $this;
+    }
+
+    public function getLivre(): ?Livre
+    {
+        return $this->livre;
+    }
+
+    public function setLivre(?Livre $livre): static
+    {
+        $this->livre = $livre;
+
+        return $this;
+    }
+
+    public function getAbonne(): ?Abonne
+    {
+        return $this->abonne;
+    }
+
+    public function setAbonne(?Abonne $abonne): static
+    {
+        $this->abonne = $abonne;
 
         return $this;
     }
