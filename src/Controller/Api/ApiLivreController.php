@@ -67,7 +67,33 @@ final class ApiLivreController extends AbstractController
 
     return $this->json(['message' => 'Livre ajouté !', 'id' => $livre->getId()], 201);
     // TEST POSMAN OK
-}
+    }
+
+    // METHODE PUT 
+    #[Route('/{id}', name: 'api_livre_edit', methods: ['PUT'])]
+    public function update(Livre $livre, Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $livre->setTitre($data['titre'] ?? $livre->getTitre());
+        $livre->setAuteur($data['auteur'] ?? $livre->getAuteur());
+        $livre->setIsbn($data['isbn'] ?? $livre->getIsbn());
+
+        if (isset($data['datePublication'])) {
+            $livre->setDatePublication(new \DateTimeImmutable($data['datePublication']));
+            // Pas reuissi avec une ternaire donc utilisation classqiue avec if
+        }
+
+            $em->flush();
+
+            return $this->json(['message' => 'Livre modifié !']);
+            //TEST POSTMAN OK
+
+    }
+
+
+
+
 }
 
 
