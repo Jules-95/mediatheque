@@ -30,6 +30,21 @@ final class EmpruntController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $livre = $emprunt->getLivre();
+
+            // Logique métier : Vérification de disponnibilité 
+            if (!$livre->isDisponible()) {
+                return $this->render('emprunt/new.html.twig',[
+                'emprunt' => $emprunt,
+                'form' => $form,
+                'erreur' => 'Ce livre est déjà emprunté.',
+                ]);
+            }
+
+            // Et on enregistre
+            $emprunt->setDateEmprunt(new \DateTimeImmutable());
+            $livre->setDisponible(false);
+
             $entityManager->persist($emprunt);
             $entityManager->flush();
 
