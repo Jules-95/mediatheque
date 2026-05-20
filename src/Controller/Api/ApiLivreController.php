@@ -95,6 +95,16 @@ final class ApiLivreController extends AbstractController
     #[Route('/{id}', name: 'api_livre_delete', methods: ['DELETE'])]
     public function delete(Livre $livre, EntityManagerInterface $em): JsonResponse
     {
+        // Problème lors de la suppression d'un livre emprunté.
+        if (!$livre->isDisponible()) {
+            return $this->json(['message' => 'Impossible de supprimer un livre emprunté.'], 400);
+        }
+
+        // Et pour contourner le problème des emprunts liés aux livres meme si le retour a été éffectué : Suppression des emprunts en question avant la suppresion du livre.
+        foreach ($livre->getEmprunts() as $emprunt) {
+            $em->remove($emprunt);
+        }
+
         $em->remove($livre);
         $em->flush();
 
