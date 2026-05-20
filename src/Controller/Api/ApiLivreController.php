@@ -91,8 +91,16 @@ final class ApiLivreController extends AbstractController
 
     }
 
+    // Methode DELETE
+    #[Route('/{id}', name: 'api_livre_delete', methods: ['DELETE'])]
+    public function delete(Livre $livre, EntityManagerInterface $em): JsonResponse
+    {
+        $em->remove($livre);
+        $em->flush();
 
-
+    return $this->json(['message' => 'Livre supprimé !']);
+    // TEST POSTMAN OK
+}
 
 }
 
