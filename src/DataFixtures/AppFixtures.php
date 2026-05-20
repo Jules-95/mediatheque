@@ -5,13 +5,35 @@ namespace App\DataFixtures;
 use App\Entity\Abonne;
 use App\Entity\Emprunt;
 use App\Entity\Livre;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class AppFixtures extends Fixture
 {
+    //Ajout du constructeur pour utiliser UserPasswordHAsher
+    public function __construct(private UserPasswordHasherInterface $hasher) {}
+
+
     public function load(ObjectManager $manager): void
     {
+
+        // Admin
+        $admin = new User();
+        $admin->setEmail('admin@mediatheque.fr');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setPassword($this->hasher->hashPassword($admin, 'admin123'));
+        $manager->persist($admin);
+
+        // Bibliothécaire
+        $biblio = new User();
+        $biblio->setEmail('biblio@mediatheque.fr');
+        $biblio->setRoles(['ROLE_BIBLIOTHECAIRE']);
+        $biblio->setPassword($this->hasher->hashPassword($biblio, 'biblio123'));
+        $manager->persist($biblio);
+
         // 10 livres (Générés par ia)
         $livresData = [
             ['titre' => 'Harry Potter', 'auteur' => 'J.K. Rowling', 'isbn' => '9782070584628'],

@@ -14,3 +14,11 @@ Il faudrait ajouter la même logique dans LivreController -> vérifier la dispon
 - **Message d'erreur emprunt** : 
 Le message d'erreur "livre déjà emprunté" ne s'affiche pas correctement sur le formulaire web (Apparement conflit avec Turbo JS). 
 Fonctionne correctement via l'API REST.
+
+## Sécurité 
+- L'entité User est créée avec deux utilisateurs en base  :
+  - admin@mediatheque.fr / admin123 → ROLE_ADMIN
+  - biblio@mediatheque.fr / biblio123 → ROLE_BIBLIOTHECAIRE
+- Pour activer la sécurisation (partielle) il faut décommenter dans security.yaml :
+  `- { path: ^/api, roles: ROLE_BIBLIOTHECAIRE }`
+
