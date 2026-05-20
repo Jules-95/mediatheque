@@ -57,6 +57,24 @@ final class EmpruntController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/retour', name: 'app_emprunt_retour', methods: ['GET'])]
+    public function retour(Emprunt $emprunt, EntityManagerInterface $entityManager): Response
+    {
+        // Verification que l'emprunt est toujours actif
+        if ($emprunt->getDateRetourEffective() !== null) {
+            return $this->redirectToRoute('app_emprunt_index');
+        }
+
+        // Logique métier retour
+        $emprunt->setDateRetourEffective(new \DateTimeImmutable());
+        $emprunt->getLivre()->setDisponible(true);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_emprunt_index');
+
+    }
+
     #[Route('/{id}', name: 'app_emprunt_show', methods: ['GET'])]
     public function show(Emprunt $emprunt): Response
     {
